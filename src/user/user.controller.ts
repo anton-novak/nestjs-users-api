@@ -1,7 +1,6 @@
 // For standalone testing of the Prisma layer.
 import { Controller, Get, Post, Body } from "@nestjs/common";
 import { UserPrismaService } from "./prisma/user.prisma.service";
-// import { User } from "./interfaces/user.interface";
 
 @Controller('user')
 export class UserController {

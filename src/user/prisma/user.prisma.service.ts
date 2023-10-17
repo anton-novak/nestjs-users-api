@@ -16,9 +16,9 @@ export class UserPrismaService extends PrismaClient implements OnModuleInit {
     });
   }
 
-  async getUser(id: Prisma.UserWhereUniqueInput): Promise<User> {
+  async getUser(id: string): Promise<User> {
     return this.user.findUnique({
-      where: id
+      where: {id: id } as Prisma.UserWhereUniqueInput
     });
   }
 
@@ -35,9 +35,9 @@ export class UserPrismaService extends PrismaClient implements OnModuleInit {
     });
   }
 
-  async deleteUser(userID: string): Promise<User> {
+  async deleteUser(id: string): Promise<User> {
     return this.user.delete({
-      where: { id: userID } as Prisma.UserWhereUniqueInput
+      where: { id: id } as Prisma.UserWhereUniqueInput
     });
   }
 }

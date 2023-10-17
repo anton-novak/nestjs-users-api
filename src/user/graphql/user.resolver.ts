@@ -31,4 +31,11 @@ export class UserResolver {
     return user;
   }
 
+  @Query()
+  async getUser(@Args('id') args: string) {
+    const user = await this.userService.getUser(args);
+    return user;
+  }
+
+
 }
