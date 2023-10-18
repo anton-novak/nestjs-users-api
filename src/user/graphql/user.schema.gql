@@ -1,8 +1,10 @@
+scalar Email
+
 type User {
   id: ID
   firstName: String
   lastName: String
-  email: String
+  email: Email
   createdAt: String
   updatedAt: String
 }
@@ -21,14 +23,14 @@ type Mutation {
 input UserCreateInput {
   firstName: String!
   lastName: String!
-  email: String!
+  email: Email!
 }
 
 input UserUpdateInput {
   id: ID!
   firstName: String
   lastName: String
-  email: String
+  email: Email
 }
 
 input UserCreatedAtFilter {

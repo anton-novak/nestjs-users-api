@@ -11,14 +11,14 @@
 export class UserCreateInput {
     firstName: string;
     lastName: string;
-    email: string;
+    email: Email;
 }
 
 export class UserUpdateInput {
     id: string;
     firstName?: Nullable<string>;
     lastName?: Nullable<string>;
-    email?: Nullable<string>;
+    email?: Nullable<Email>;
 }
 
 export class UserCreatedAtFilter {
@@ -34,7 +34,7 @@ export class User {
     id?: Nullable<string>;
     firstName?: Nullable<string>;
     lastName?: Nullable<string>;
-    email?: Nullable<string>;
+    email?: Nullable<Email>;
     createdAt?: Nullable<string>;
     updatedAt?: Nullable<string>;
 }
@@ -53,4 +53,5 @@ export abstract class IMutation {
     abstract deleteUser(id: string): Nullable<User> | Promise<Nullable<User>>;
 }
 
+export type Email = any;
 type Nullable<T> = T | null;

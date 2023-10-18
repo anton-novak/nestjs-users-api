@@ -19,6 +19,8 @@ export class UserHelpersService {
 
       if (filters.createdAtFilter.after) {
         let after = new Date(filters.createdAtFilter.after);
+        // TODO: Research custom GraphQL scalar types as another approach 
+        // to validating dates and abstract this logic to the schema level.
         if (after.toString() === 'Invalid Date') throw new Error('Invalid date format.');
         prismaFilter.where.AND.push({
           createdAt: {
