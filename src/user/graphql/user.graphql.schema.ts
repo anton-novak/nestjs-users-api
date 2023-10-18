@@ -39,10 +39,26 @@ export class User {
     updatedAt?: Nullable<DateISO>;
 }
 
+export class Edge {
+    node?: Nullable<User>;
+    cursor?: Nullable<string>;
+}
+
+export class PageInfo {
+    startCursor?: Nullable<string>;
+    hasNextPage?: Nullable<boolean>;
+}
+
+export class UserResult {
+    totalCount?: Nullable<number>;
+    edges?: Nullable<Nullable<Edge>[]>;
+    pageInfo?: Nullable<PageInfo>;
+}
+
 export abstract class IQuery {
     abstract getUser(id: string): Nullable<User> | Promise<Nullable<User>>;
 
-    abstract listUsers(filters?: Nullable<UserListFilters>): Nullable<Nullable<User>[]> | Promise<Nullable<Nullable<User>[]>>;
+    abstract listUsers(filters?: Nullable<UserListFilters>, take?: Nullable<number>, cursor?: Nullable<string>): Nullable<UserResult> | Promise<Nullable<UserResult>>;
 }
 
 export abstract class IMutation {

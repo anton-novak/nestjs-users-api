@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { UserPrismaService } from "../prisma/user.prisma.service";
-import { UserCreateInput, UserUpdateInput, UserListFilters } from './user.graphql.schema';
+import { UserCreateInput, UserUpdateInput, UserListFilters, DateISO } from './user.graphql.schema';
 import { UserHelpersService } from "../helpers/user.helpers.service";
 import { Prisma } from "@prisma/client";
 
@@ -15,21 +15,44 @@ export class UserResolver {
   }
 
   @Query()
-  async listUsers(@Args('filters') args: UserListFilters) {
-    let prismaOptions = { 
+  async listUsers(
+    @Args('filters') filters: UserListFilters,
+    @Args('take') take: number,
+    @Args('cursor') cursor: Prisma.UserWhereUniqueInput
+    ) {
+      console.log(filters, take, cursor);
+    const prismaOptions = {
+      take: take,
+      skip: cursor ? 1 : 0,
+      cursor: cursor ? { id: cursor } : undefined,
       where: {} as Prisma.UserWhereInput, 
-      orderBy: {} as Prisma.UserOrderByWithRelationInput
+      orderBy: { updatedAt: 'asc' } as Prisma.UserOrderByWithRelationInput
     };
-    if (args) {
-      try {
-        prismaOptions.where = this.helpers.prismaFilterBuilder(args);
-      } catch (error) {
-        return error;
+
+    if (filters) prismaOptions.where = this.helpers.prismaFilterBuilder(filters);
+
+    const rowsCount = await this.userService.countUserRecords({ where: prismaOptions.where });
+
+    // To figure out if there's a next page I either have to fetch the whole list or
+    // know the last item's cursor. I'm fetching the last item's cursor which seems more economical.
+
+    const users = await this.userService.listUsers(prismaOptions);
+    const lastUser = await this.userService.findLastUser(prismaOptions);
+    
+    const lastUserIndexInList = users.findIndex(user => user.id === lastUser.id);
+
+    const userResult = {
+      totalCount: rowsCount,
+      edges: users.length > 0 && users.map(user => {
+        return { node: user, cursor: user.id };
+      }),
+      pageInfo: {
+        startCursor: users[0] ? users[0].id : null,
+        hasNextPage: lastUserIndexInList === -1 ? true : false
       }
     }
-    prismaOptions.orderBy = { updatedAt: 'asc' };
-    const users = await this.userService.listUsers(prismaOptions);
-    return users;
+
+    return userResult;
   }
 
   @Mutation()

@@ -17,14 +17,26 @@ export class UserPrismaService {
     let user = await this.prisma.user.findUnique({
       where: {id: id } as Prisma.UserWhereUniqueInput
     });
-    console.log(user);
     return user;
   }
 
-  // TODO: Research pagination.
-  async listUsers(prismaFilter: { where: Prisma.UserWhereInput }): Promise<User[]> {
-    let users = await this.prisma.user.findMany(prismaFilter);
+  async listUsers(prismaOptions: { where: Prisma.UserWhereInput }): Promise<User[]> {
+    let users = await this.prisma.user.findMany(prismaOptions);
     return users;
+  }
+
+  async findLastUser(prismaOptions: { where: Prisma.UserWhereInput }): Promise<User> {
+    const sanitizedPrismaOptions = { 
+      where: prismaOptions.where, 
+      orderBy: { updatedAt: 'desc' } as Prisma.UserOrderByWithRelationInput
+    };
+    let user = await this.prisma.user.findFirst(sanitizedPrismaOptions);
+    return user;
+  }
+
+  async countUserRecords(prismaFilter: { where: Prisma.UserWhereInput }): Promise<number> {
+    let count = await this.prisma.user.count(prismaFilter);
+    return count;
   }
 
   async updateUser(data: Prisma.UserUpdateInput): Promise<User> {

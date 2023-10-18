@@ -10,9 +10,25 @@ type User {
   updatedAt: DateISO
 }
 
+type Edge {
+  node: User
+  cursor: String
+}
+
+type PageInfo {
+  startCursor: String
+  hasNextPage: Boolean
+}
+
+type UserResult {
+  totalCount: Int
+  edges: [Edge]
+  pageInfo: PageInfo
+}
+
 type Query {
   getUser(id: ID!): User
-  listUsers(filters: UserListFilters): [User]
+  listUsers(filters: UserListFilters, take: Int, cursor: String): UserResult
 }
 
 type Mutation {
