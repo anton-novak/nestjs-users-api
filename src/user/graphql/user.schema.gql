@@ -9,7 +9,7 @@ type User {
 
 type Query {
   getUser(id: ID!): User
-  listUsers: [User]
+  listUsers(filters: UserListFilters): [User]
 }
 
 type Mutation {
@@ -29,4 +29,13 @@ input UserUpdateInput {
   firstName: String
   lastName: String
   email: String
+}
+
+input UserCreatedAtFilter {
+  after: String
+  before: String
+}
+
+input UserListFilters {
+  createdAtFilter: UserCreatedAtFilter
 }

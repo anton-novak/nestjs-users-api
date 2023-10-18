@@ -21,6 +21,15 @@ export class UserUpdateInput {
     email?: Nullable<string>;
 }
 
+export class UserCreatedAtFilter {
+    after?: Nullable<string>;
+    before?: Nullable<string>;
+}
+
+export class UserListFilters {
+    createdAtFilter?: Nullable<UserCreatedAtFilter>;
+}
+
 export class User {
     id?: Nullable<string>;
     firstName?: Nullable<string>;
@@ -33,7 +42,7 @@ export class User {
 export abstract class IQuery {
     abstract getUser(id: string): Nullable<User> | Promise<Nullable<User>>;
 
-    abstract listUsers(): Nullable<Nullable<User>[]> | Promise<Nullable<Nullable<User>[]>>;
+    abstract listUsers(filters?: Nullable<UserListFilters>): Nullable<Nullable<User>[]> | Promise<Nullable<Nullable<User>[]>>;
 }
 
 export abstract class IMutation {

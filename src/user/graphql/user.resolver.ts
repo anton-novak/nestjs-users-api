@@ -1,7 +1,8 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { UserPrismaService } from "../prisma/user.prisma.service";
-import { User, UserCreateInput, UserUpdateInput } from './user.graphql.schema';
-import { UserHelpersService } from "../user.helpers.service";
+import { UserCreateInput, UserUpdateInput, UserListFilters } from './user.graphql.schema';
+import { UserHelpersService } from "../helpers/user.helpers.service";
+import { Prisma } from "@prisma/client";
 
 @Resolver('User')
 export class UserResolver {
@@ -14,8 +15,16 @@ export class UserResolver {
   }
 
   @Query()
-  async listUsers() {
-    const users = await this.userService.listUsers();
+  async listUsers(@Args('filters') args: UserListFilters) {
+    let prismaFilter: { where: Prisma.UserWhereInput };
+    if (args) {
+      try {
+        prismaFilter = this.helpers.prismaFilterBuilder(args);
+      } catch (error) {
+        return error;
+      }
+    }
+    const users = await this.userService.listUsers(prismaFilter);
     return users;
   }
 
@@ -33,9 +42,8 @@ export class UserResolver {
 
   @Query()
   async getUser(@Args('id') args: string) {
+    console.log(args);
     const user = await this.userService.getUser(args);
     return user;
   }
-
-
 }

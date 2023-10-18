@@ -1,12 +1,12 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CatsModule } from './cats/cats.module';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 import { UserModule } from './user/user.module';
+import { TestingModule } from '@nestjs/testing';
 
 @Module({
-  imports: [CatsModule, UserModule],
+  imports: [UserModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -1,42 +1,40 @@
-import { Injectable, OnModuleInit } from "@nestjs/common";
-import { PrismaClient, User, Prisma } from "@prisma/client";
+import { Injectable } from "@nestjs/common";
+import { User, Prisma } from "@prisma/client";
+import { UserPrismaClient } from "./user.prisma.client";
 
 @Injectable()
-export class UserPrismaService extends PrismaClient implements OnModuleInit {
-  // Spin up the Prisma client.
-  async onModuleInit() {
-    await this.$connect()
-      .then(() => console.log('[user.prisma.service]: Prisma client initialized'));
-  }
+export class UserPrismaService {
+  constructor(private prisma: UserPrismaClient) {}
 
   // Define CRUD methods for Prisma data access layer.
   async createUser(data: Prisma.UserCreateInput): Promise<User> {
-    return this.user.create({
+    return this.prisma.user.create({
       data
     });
   }
 
   async getUser(id: string): Promise<User> {
-    return this.user.findUnique({
+    return this.prisma.user.findUnique({
       where: {id: id } as Prisma.UserWhereUniqueInput
     });
   }
 
   // TODO: Research pagination.
-  async listUsers(): Promise<User[]> {
-    return this.user.findMany({});
+  async listUsers(prismaFilter: { where: Prisma.UserWhereInput }): Promise<User[]> {
+    let users = await this.prisma.user.findMany(prismaFilter);
+    return users;
   }
 
   async updateUser(data: Prisma.UserUpdateInput): Promise<User> {
     data.updatedAt = new Date;
-    return this.user.update({
+    return this.prisma.user.update({
       data: data,
       where: { id: data.id } as Prisma.UserWhereUniqueInput
     });
   }
 
   async deleteUser(id: string): Promise<User> {
-    return this.user.delete({
+    return this.prisma.user.delete({
       where: { id: id } as Prisma.UserWhereUniqueInput
     });
   }

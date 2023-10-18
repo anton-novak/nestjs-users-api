@@ -6,7 +6,8 @@ import { ConfigModule } from "@nestjs/config";
 import { UserPrismaService } from "./prisma/user.prisma.service";
 import { UserController } from "./user.controller";
 import { UserResolver } from "./graphql/user.resolver";
-import { UserHelpersService } from "./user.helpers.service";
+import { UserHelpersService } from "./helpers/user.helpers.service";
+import { UserPrismaClient } from "./prisma/user.prisma.client";
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { UserHelpersService } from "./user.helpers.service";
     ConfigModule.forRoot()
   ],
   controllers: [UserController],
-  providers: [UserPrismaService, UserResolver, UserHelpersService],
+  providers: [UserPrismaService, UserResolver, UserHelpersService, UserPrismaClient],
   exports: []
 })
 

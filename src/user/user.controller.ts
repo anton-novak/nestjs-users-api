@@ -8,7 +8,7 @@ export class UserController {
 
   @Get('users')
   async listUsers(): Promise<any[]> {
-    return this.userService.listUsers();
+    return this.userService.listUsers({} as any);
   }
 
   @Post()
