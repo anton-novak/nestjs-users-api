@@ -9,9 +9,7 @@ export class UserHelpersService {
   prismaFilterBuilder(filters: UserListFilters) {
     // AND array included for future extensions.
     let prismaFilter = {
-      where: {
         AND: []
-      }
     };
 
     // Period filter.
@@ -19,7 +17,7 @@ export class UserHelpersService {
 
       if (filters.createdAtFilter.after) {
         let after = new Date(filters.createdAtFilter.after);
-        prismaFilter.where.AND.push({
+        prismaFilter.AND.push({
           createdAt: {
             gte: after
           }
@@ -28,7 +26,7 @@ export class UserHelpersService {
 
       if (filters.createdAtFilter.before) {
         let before = new Date(filters.createdAtFilter.before);
-        prismaFilter.where.AND.push({
+        prismaFilter.AND.push({
           createdAt: {
             lte: before
           }

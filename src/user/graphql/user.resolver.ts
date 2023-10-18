@@ -16,15 +16,19 @@ export class UserResolver {
 
   @Query()
   async listUsers(@Args('filters') args: UserListFilters) {
-    let prismaFilter: { where: Prisma.UserWhereInput };
+    let prismaOptions = { 
+      where: {} as Prisma.UserWhereInput, 
+      orderBy: {} as Prisma.UserOrderByWithRelationInput
+    };
     if (args) {
       try {
-        prismaFilter = this.helpers.prismaFilterBuilder(args);
+        prismaOptions.where = this.helpers.prismaFilterBuilder(args);
       } catch (error) {
         return error;
       }
     }
-    const users = await this.userService.listUsers(prismaFilter);
+    prismaOptions.orderBy = { updatedAt: 'asc' };
+    const users = await this.userService.listUsers(prismaOptions);
     return users;
   }
 
