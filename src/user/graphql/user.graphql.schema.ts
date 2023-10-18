@@ -22,8 +22,8 @@ export class UserUpdateInput {
 }
 
 export class UserCreatedAtFilter {
-    after?: Nullable<string>;
-    before?: Nullable<string>;
+    after?: Nullable<DateISO>;
+    before?: Nullable<DateISO>;
 }
 
 export class UserListFilters {
@@ -35,8 +35,8 @@ export class User {
     firstName?: Nullable<string>;
     lastName?: Nullable<string>;
     email?: Nullable<Email>;
-    createdAt?: Nullable<string>;
-    updatedAt?: Nullable<string>;
+    createdAt?: Nullable<DateISO>;
+    updatedAt?: Nullable<DateISO>;
 }
 
 export abstract class IQuery {
@@ -54,4 +54,5 @@ export abstract class IMutation {
 }
 
 export type Email = any;
+export type DateISO = any;
 type Nullable<T> = T | null;

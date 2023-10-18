@@ -1,12 +1,13 @@
 scalar Email
+scalar DateISO
 
 type User {
   id: ID
   firstName: String
   lastName: String
   email: Email
-  createdAt: String
-  updatedAt: String
+  createdAt: DateISO
+  updatedAt: DateISO
 }
 
 type Query {
@@ -34,8 +35,8 @@ input UserUpdateInput {
 }
 
 input UserCreatedAtFilter {
-  after: String
-  before: String
+  after: DateISO
+  before: DateISO
 }
 
 input UserListFilters {

@@ -14,9 +14,11 @@ export class UserPrismaService {
   }
 
   async getUser(id: string): Promise<User> {
-    return this.prisma.user.findUnique({
+    let user = await this.prisma.user.findUnique({
       where: {id: id } as Prisma.UserWhereUniqueInput
     });
+    console.log(user);
+    return user;
   }
 
   // TODO: Research pagination.
@@ -26,7 +28,6 @@ export class UserPrismaService {
   }
 
   async updateUser(data: Prisma.UserUpdateInput): Promise<User> {
-    data.updatedAt = new Date;
     return this.prisma.user.update({
       data: data,
       where: { id: data.id } as Prisma.UserWhereUniqueInput

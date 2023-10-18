@@ -8,7 +8,7 @@ import { UserController } from "./user.controller";
 import { UserResolver } from "./graphql/user.resolver";
 import { UserHelpersService } from "./helpers/user.helpers.service";
 import { UserPrismaClient } from "./prisma/user.prisma.client";
-import { EmailScalar } from "./graphql/user.custom.scalars";
+import { EmailScalar, DateISOScalar } from "./graphql/user.custom.scalars";
 
 @Module({
   imports: [
@@ -19,7 +19,7 @@ import { EmailScalar } from "./graphql/user.custom.scalars";
         path: join(process.cwd(), 'src/user/graphql/user.graphql.schema.ts'),
         outputAs: 'class'
       },
-      resolvers: { Email: EmailScalar }
+      resolvers: { Email: EmailScalar, DateISO: DateISOScalar }
     }),
     ConfigModule.forRoot()
   ],
