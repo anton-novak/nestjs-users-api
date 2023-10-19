@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserListFilters } from '../graphql/user.graphql.schema';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserHelpersService {
@@ -7,7 +8,7 @@ export class UserHelpersService {
   prismaFilterBuilder(filters: UserListFilters) {
     // AND array included for future extensions.
     let prismaFilter = {
-        AND: []
+        AND: <Prisma.UserWhereInput[]>[]
     };
 
     // Period filter.

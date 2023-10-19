@@ -13,7 +13,7 @@ export class UserPrismaService {
     });
   }
 
-  async getUser(id: string): Promise<User> {
+  async getUser(id: string): Promise<User | null> {
     let user = await this.prisma.user.findUnique({
       where: {id: id } as Prisma.UserWhereUniqueInput
     });
@@ -25,7 +25,7 @@ export class UserPrismaService {
     return users;
   }
 
-  async findLastUser(prismaOptions: { where: Prisma.UserWhereInput }): Promise<User> {
+  async findLastUser(prismaOptions: { where: Prisma.UserWhereInput }): Promise<User | null> {
     const sanitizedPrismaOptions = { 
       where: prismaOptions.where, 
       orderBy: { updatedAt: 'desc' } as Prisma.UserOrderByWithRelationInput
