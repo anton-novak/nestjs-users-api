@@ -4,7 +4,6 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { join } from "path";
 import { ConfigModule } from "@nestjs/config";
 import { UserPrismaService } from "./prisma/user.prisma.service";
-import { UserController } from "./user.controller";
 import { UserResolver } from "./graphql/user.resolver";
 import { UserHelpersService } from "./helpers/user.helpers.service";
 import { UserPrismaClient } from "./prisma/user.prisma.client";
@@ -23,7 +22,7 @@ import { EmailScalar, DateISOScalar } from "./graphql/user.custom.scalars";
     }),
     ConfigModule.forRoot()
   ],
-  controllers: [UserController],
+  controllers: [],
   providers: [UserPrismaService, UserResolver, UserHelpersService, UserPrismaClient],
   exports: []
 })

@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User as UserGQL, UserListFilters } from '../graphql/user.graphql.schema';
-import { User as UserPrisma } from "@prisma/client";
-import { error } from 'console';
+import { UserListFilters } from '../graphql/user.graphql.schema';
 
 @Injectable()
 export class UserHelpersService {

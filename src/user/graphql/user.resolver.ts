@@ -20,7 +20,6 @@ export class UserResolver {
     @Args('take') take: number,
     @Args('cursor') cursor: Prisma.UserWhereUniqueInput
     ) {
-      console.log(filters, take, cursor);
     const prismaOptions = {
       take: take,
       skip: cursor ? 1 : 0,
@@ -69,7 +68,6 @@ export class UserResolver {
 
   @Query()
   async getUser(@Args('id') args: string) {
-    console.log(args);
     const user = await this.userService.getUser(args);
     return user;
   }
